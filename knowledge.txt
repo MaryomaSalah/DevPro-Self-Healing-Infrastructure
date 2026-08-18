@@ -1,0 +1,22 @@
+======================================================================
+DEVPRO AUTOMATED INFRASTRUCTURE KNOWLEDGE BASE v1.0
+======================================================================
+
+[INCIDENT TYPOLOGY 01: CPU OVERLOAD]
+- Condition: Continuous CPU usage monitored above 85%.
+- Core Root Cause: Thread lock inside application container due to zombie processes.
+- Primary Remediation Action: Execute an automated container lifecycle restart.
+- Terminal Command: docker restart devpro-app-container
+- Post-Action Verification: Metrics monitoring loop must confirm a CPU stabilization phase below 40% within 15 seconds.
+
+[INCIDENT TYPOLOGY 02: MEMORY LEAK]
+- Condition: Available system RAM drops below 10%.
+- Core Root Cause: Unreleased objects or variables in backend microservices.
+- Primary Remediation Action: Trigger garbage collection and force cache clearance.
+- Terminal Command: docker exec -it devpro-app-container sync && echo 3 > /proc/sys/vm/drop_caches
+
+[SYSTEM ARCHITECTURE CONFIGURATION]
+- Environment: Docker Swarm / Standalone Container Deployment.
+- Microservice Target: devpro-app-container
+- Monitoring Interval: 1-second pulse checkpoints.
+- Autonomic Level: Full Self-Healing (No human intervention required).
