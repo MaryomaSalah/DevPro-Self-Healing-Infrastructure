@@ -1,14 +1,19 @@
-
 import json
 import time
 import os
+import docker
 import metrics
 from metrics import build_dashboard, console, save_usage_chart, open_file
 from rich.live import Live
 from google import genai
 from google.genai import types
 
-client = genai.Client(api_key="AIzaSy...") 
+api_key = os.environ.get("GEMINI_API_KEY")
+if not api_key:
+    raise RuntimeError("GEMINI_API_KEY environment variable is not set.")
+
+client = None
+docker_client = None
 
 def process_server_metrics(cpu_usage):
     if cpu_usage < 85:
@@ -30,6 +35,9 @@ def process_server_metrics(cpu_usage):
              f"Respond ONLY with a valid JSON containing 'status': 'danger', 'action': 'RESTART'."
 
     try:
+        global client
+        if client is None:
+            client = genai.Client(api_key=api_key)
         response = client.models.generate_content(
             model='gemini-2.5-flash',
             contents=prompt,
@@ -62,7 +70,9 @@ if __name__ == "__main__":
                 
                 if ai_decision.get("action") == "RESTART":
                     console.print("\n[bold red]>>> [HEALING ACTION] Gemini ordered RESTART. Fixing Container...[/bold red]")
-                    os.system("docker restart devpro-app-container")
+                    if docker_client is None:
+                        docker_client = docker.from_env()
+                    docker_client.containers.get("devpro-app-container").restart()
                     time.sleep(2) 
                     
                 time.sleep(1)

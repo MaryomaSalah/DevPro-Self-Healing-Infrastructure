@@ -1,0 +1,9 @@
+services:
+  devpro-app:
+    build: .
+    container_name: devpro-app-container
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped

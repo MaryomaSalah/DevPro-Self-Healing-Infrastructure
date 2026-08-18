@@ -247,9 +247,16 @@ class ChaosRunner:
 
 # ---------- Entry point ----------
 
+def positive_int(value):
+    duration = int(value)
+    if duration <= 0:
+        raise argparse.ArgumentTypeError("duration must be greater than zero")
+    return duration
+
+
 def main():
     parser = argparse.ArgumentParser(description="CPU stress test for self-healing demo")
-    parser.add_argument("--duration", type=int, default=30, help="How long to stress the CPU, in seconds")
+    parser.add_argument("--duration", type=positive_int, default=30, help="How long to stress the CPU, in seconds")
     parser.add_argument("--workers", type=int, default=None, help="Number of processes (default: all CPU cores)")
     args = parser.parse_args()
 
