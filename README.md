@@ -7,7 +7,7 @@ An autonomic, AI-powered system designed to predict, detect, and automatically r
 ## 👥 DevPro Team & Roles
 * **Maryam Salah** — Team Leader & AI Developer 🧠
 * **Omar Fadalla** — Backend & Metrics Engineer 💻
-* **Hamam DevOps** — Infrastructure & Docker Automation ⚙️
+* **Hamam AbdEljaud DevOps** — Infrastructure & Docker Automation ⚙️
 * **Sarah Zoghly** — Frontend & UI Dashboard Developer 🎨
 
 ---
