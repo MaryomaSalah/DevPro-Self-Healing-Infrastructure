@@ -1,5 +1,8 @@
 import json
 import time
+from dotenv import load_dotenv
+load_dotenv()
+
 import os
 import docker
 import metrics
@@ -70,6 +73,8 @@ if __name__ == "__main__":
                 
                 if ai_decision.get("action") == "RESTART":
                     console.print("\n[bold red]>>> [HEALING ACTION] Gemini ordered RESTART. Fixing Container...[/bold red]")
+                    docker_client = None
+
                     if docker_client is None:
                         docker_client = docker.from_env()
                     docker_client.containers.get("devpro-app-container").restart()
